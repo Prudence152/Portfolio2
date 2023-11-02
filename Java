@@ -1,1 +1,158 @@
+import java.util.Scanner;
+import java.util.Stack;
 
+class ShoppingCart {
+    private Stack<String> cart = new Stack<>();
+    private Stack<String> deletedItems = new Stack<>();
+
+    // Add item to cart
+    public void addItemToCart(String item) {
+        cart.push(item);
+        System.out.println(item + " has been added to the cart.");
+    }
+
+    // Update an item in the cart
+    public void updateItemInCart(String currentItem, String newItem) {
+        if (cart.contains(currentItem)) {
+            cart.remove(currentItem);
+            cart.push(newItem);
+            System.out.println(currentItem + " has been updated to " + newItem + " in the cart.");
+        } else {
+            System.out.println("Item not found in the cart.");
+        }
+    }
+
+    // Delete an item from the cart
+    public void deleteItemFromCart(String item) {
+        if (cart.contains(item)) {
+            cart.remove(item);
+            deletedItems.push(item);
+            System.out.println(item + " has been removed from the cart and added to deleted items.");
+        } else {
+            System.out.println("Item not found in the cart.");
+        }
+    }
+
+    // View items in cart
+    public void viewItemsInCart() {
+        if (cart.isEmpty()) {
+            System.out.println("Cart is empty.");
+        } else {
+            System.out.println("Items in the cart:");
+            for (String item : cart) {
+                System.out.println(item);
+            }
+        }
+    }
+
+    // Search for an item in the cart
+    public void searchItemInCart(String item) {
+        if (cart.contains(item)) {
+            System.out.println(item + " is in the cart.");
+        } else {
+            System.out.println(item + " is not in the cart.");
+        }
+    }
+
+    // Retrieve deleted item from the deleted items stack
+    public void retrieveDeletedItem() {
+        if (!deletedItems.isEmpty()) {
+            String retrievedItem = deletedItems.pop();
+            cart.push(retrievedItem);
+            System.out.println(retrievedItem + " has been retrieved from deleted items and added back to the cart.");
+        } else {
+            System.out.println("No deleted items to retrieve.");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ShoppingCart cart = new ShoppingCart();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nOptions:");
+            System.out.println("1. Add item to cart");
+            System.out.println("2. Update item in cart");
+            System.out.println("3. Delete item from cart");
+            System.out.println("4. Retrieve Recently Deleted Item");
+            System.out.println("5. View items in cart");
+            System.out.println("6. Search item in cart");
+            System.out.println("7. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    // Add item to cart
+                    System.out.println("\nAvailable Products:");
+                    System.out.println("Code Product Name - Price");
+                    System.out.println("1.1 iPhone 13 - ₱49,990");
+                    System.out.println("1.2 Samsung Galaxy S22 - ₱39,990");
+                    System.out.println("1.3 Google Pixel 6 - ₱44,990");
+                    System.out.println("1.4 OnePlus 9 Pro - ₱38,990");
+                    System.out.println("1.5 Xiaomi Mi 11 - ₱22,990");
+                    System.out.print("Enter item code to add to cart: ");
+                    String itemCode = scanner.nextLine();
+
+                    switch (itemCode) {
+                        case "1.1":
+                            cart.addItemToCart("iPhone 13");
+                            break;
+                        case "1.2":
+                            cart.addItemToCart("Samsung Galaxy S22");
+                            break;
+                        case "1.3":
+                            cart.addItemToCart("Google Pixel 6");
+                            break;
+                        case "1.4":
+                           cart.addItemToCart("OnePlus 9 Pro");
+                            break;
+                        case "1.5":
+                            cart.addItemToCart("Xiaomi Mi 11");
+                            break;
+                        default:
+                            System.out.println("Invalid item code.");
+                            break;
+                    }
+                    break;
+      case 2:
+                    // Update item in cart
+                    System.out.print("Enter full name of current item: ");
+                    String currentItem = scanner.nextLine();
+                    System.out.print("Enter full name of new item: ");
+                    String newItem = scanner.nextLine();
+                    cart.updateItemInCart(currentItem, newItem);
+                    break;
+                case 3:
+                    // Delete item from cart
+                    System.out.print("Enter item to delete: ");
+                    String deleteItem = scanner.nextLine();
+                    cart.deleteItemFromCart(deleteItem);
+                    break;
+                case 4:
+                    // Retrieve deleted items
+                    cart.retrieveDeletedItem();
+                    break;
+                case 5:
+                    // View items in cart
+                    cart.viewItemsInCart();
+                    break;
+                case 6:
+                    // Search item in cart
+                    System.out.print("Enter full item name to search: ");
+                    String searchItem = scanner.nextLine();
+                    cart.searchItemInCart(searchItem);
+                    break;
+                case 7:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
